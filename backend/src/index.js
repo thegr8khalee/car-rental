@@ -43,8 +43,14 @@ app.get('/api', (req, res) => {
 
 // Health check route
 app.get('/health', async (req, res) => {
+  const timeoutMs = 3000;
   try {
-    await testConnection();
+    await Promise.race([
+      testConnection(),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error(`DB check timed out after ${timeoutMs}ms`)), timeoutMs)
+      ),
+    ]);
     res.json({
       status: 'healthy',
       database: 'connected',
@@ -87,7 +93,8 @@ app.use('/api/admin/broadcast', broadcastRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/locations', locationRoutes);
 // Serve frontend static assets in production before the 404 handler
-if (process.env.NODE_ENV === 'production') {
+// Skip on Vercel — Vercel serves the static frontend directly via outputDirectory.
+if (process.env.NODE_ENV === 'production' && !process.env.VERCEL) {
   // __dirname is the backend folder when started from backend/ (start script: node src/index.js)
   // frontend is a sibling folder of backend, so go up one level to reach it.
   const frontendDistPath = path.join(__dirname, '../frontend', 'dist');

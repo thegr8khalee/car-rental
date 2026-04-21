@@ -1,23 +1,26 @@
 // services/gmail.service.js
-import { google } from 'googleapis';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Initialize OAuth2 client
-const oauth2Client = new google.auth.OAuth2(
-  process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_CLIENT_SECRET,
-  process.env.GOOGLE_REDIRECT_URI || 'https://developers.google.com/oauthplayground'
-);
+let gmailClientPromise;
 
-// Set credentials
-oauth2Client.setCredentials({
-  refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
-});
-
-// Initialize Gmail API
-const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
+const getGmailClient = () => {
+  if (!gmailClientPromise) {
+    gmailClientPromise = import('googleapis').then(({ google }) => {
+      const oauth2Client = new google.auth.OAuth2(
+        process.env.GOOGLE_CLIENT_ID,
+        process.env.GOOGLE_CLIENT_SECRET,
+        process.env.GOOGLE_REDIRECT_URI || 'https://developers.google.com/oauthplayground'
+      );
+      oauth2Client.setCredentials({
+        refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
+      });
+      return google.gmail({ version: 'v1', auth: oauth2Client });
+    });
+  }
+  return gmailClientPromise;
+};
 
 /**
  * Create email message in RFC 2822 format
@@ -25,7 +28,7 @@ const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
 const createMessage = (to, subject, textContent, htmlContent, from) => {
   const fromEmail = from || process.env.EMAIL_USER;
   const boundary = '----=_Part_0_' + Date.now();
-  
+
   const message = [
     `From: ${fromEmail}`,
     `To: ${to}`,
@@ -61,6 +64,7 @@ const createMessage = (to, subject, textContent, htmlContent, from) => {
  */
 export const sendEmail = async ({ to, subject, text, html, from }) => {
   try {
+    const gmail = await getGmailClient();
     const rawMessage = createMessage(to, subject, text, html, from);
 
     const response = await gmail.users.messages.send({
@@ -78,7 +82,7 @@ export const sendEmail = async ({ to, subject, text, html, from }) => {
     };
   } catch (error) {
     console.error('❌ Gmail API error:', error.message);
-    
+
     if (error.code === 401) {
       console.error('Authentication failed - check OAuth2 tokens');
     } else if (error.code === 403) {
@@ -86,7 +90,7 @@ export const sendEmail = async ({ to, subject, text, html, from }) => {
     } else if (error.code === 429) {
       console.error('Rate limit exceeded - too many requests');
     }
-    
+
     throw error;
   }
 };
@@ -96,6 +100,7 @@ export const sendEmail = async ({ to, subject, text, html, from }) => {
  */
 export const verifyConnection = async () => {
   try {
+    const gmail = await getGmailClient();
     const response = await gmail.users.getProfile({ userId: 'me' });
     console.log('✅ Gmail API connected:', response.data.emailAddress);
     return true;
