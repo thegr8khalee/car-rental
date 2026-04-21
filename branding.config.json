@@ -1,0 +1,100 @@
+{
+  "company": {
+    "name": "Velocity",
+    "legalName": "Velocity Rentals Ltd.",
+    "tagline": "Drive anything. Anywhere. Anytime.",
+    "ceo": {
+      "name": "Saminu",
+      "bioTemplate": "I am {ceoName}, founder of {companyName}. We built Velocity to make premium mobility effortless — unlock a car in minutes, drive it like it's yours."
+    }
+  },
+  "branding": {
+    "logoAlt": "Velocity logo",
+    "colors": {
+      "bg": "#0a0a0b",
+      "surface": "#15151a",
+      "elevated": "#1f1f26",
+      "border": "#2a2a33",
+      "text": "#f5f5f7",
+      "muted": "#8b8b93",
+      "accent": "#22d3ee",
+      "accentHover": "#67e8f9",
+      "success": "#34d399",
+      "warning": "#fbbf24",
+      "danger": "#f87171",
+      "primary": "#22d3ee",
+      "secondary": "#15151a"
+    },
+    "typography": {
+      "bodyFont": "'Inter', sans-serif",
+      "displayFont": "'Microgramma D Extended', sans-serif",
+      "headingFont": "'Space Grotesk', 'Inter', sans-serif",
+      "bodySize": "16px",
+      "headingWeight": "600",
+      "lineHeight": "1.6"
+    },
+    "borderRadius": {
+      "sm": "0.5rem",
+      "md": "0.875rem",
+      "lg": "1.25rem",
+      "xl": "1.75rem",
+      "pill": "9999px"
+    },
+    "assets": {
+      "favicon": {
+        "default": "/vite.svg",
+        "light": null,
+        "dark": null,
+        "appleTouch": null
+      }
+    }
+  },
+  "contact": {
+    "emails": {
+      "info": "hello@velocity.rent",
+      "support": "support@velocity.rent",
+      "sales": "fleet@velocity.rent"
+    },
+    "phones": {
+      "main": {
+        "display": "+123456789",
+        "value": "+123456789"
+      },
+      "support": {
+        "display": "+123456789",
+        "value": "+123456789"
+      },
+      "sales": {
+        "display": "+123456789",
+        "value": "+123456789"
+      }
+    },
+    "address": {
+      "line1": "3F3G+74Q, Olusegun Obasanjo Wy",
+      "line2": "Beside NNPC Mega Gas Station, Central Business District",
+      "city": "Abuja",
+      "region": "Federal Capital Territory",
+      "country": "Nigeria",
+      "postalCode": "900103",
+      "formatted": "3F3G+74Q, Olusegun Obasanjo Wy, Central Business District, Abuja 900103, Nigeria"
+    },
+    "hours": [
+      {
+        "label": "Monday - Friday",
+        "value": "7:00 AM - 10:00 PM"
+      },
+      {
+        "label": "Saturday",
+        "value": "8:00 AM - 8:00 PM"
+      },
+      {
+        "label": "Sunday",
+        "value": "9:00 AM - 6:00 PM"
+      }
+    ],
+    "location": {
+      "latitude": 9.053328635799218,
+      "longitude": 7.475317593815377
+    }
+  }
+}

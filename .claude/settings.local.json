@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -rn \"protectRoute\\\\|protectAdminRoute\" /c/Users/USER/car-template/Car-template/backend/src/routes/*.js)",
+      "Bash(ls -la /c/Users/USER/car-template/Car-template/frontend/src/test*)",
+      "Bash(git -C /c/Users/USER/car-template/Car-template log --oneline --all -20)",
+      "Bash(npm ls *)",
+      "Bash(npm install *)",
+      "Bash(node --check src/controllers/auth.controller.js)",
+      "Bash(node --check src/controllers/admin.controller.js)",
+      "Bash(node --check src/controllers/car.controller.js)",
+      "Bash(node --check src/controllers/sell.controller.js)",
+      "Bash(node --check src/lib/db.js)",
+      "Bash(npx vite *)"
+    ]
+  }
+}
